@@ -2,6 +2,7 @@ package com.fingerbeat.cloud.net;
 
 import android.text.TextUtils;
 
+import com.fingerbeat.cloud.BaseApplication;
 import com.fingerbeat.cloud.net.bean.BaseBean;
 import com.fingerbeat.utilcode.constant.Const;
 import com.fingerbeat.utilcode.utils.encrypt.EncryptUtil;
@@ -43,18 +44,18 @@ public class CustomResponseConverter<T> implements Converter<ResponseBody, BaseB
             result.setCode(jsonObject.getInt("code"));
             result.setMsg(jsonObject.getString("msg"));
             String encryptData = jsonObject.optString("data");
-//            Logger.e("encryptData:" + encryptData);
-//            if (!TextUtils.isEmpty(encryptData)) {TODO
-//                String decryptData = EncryptUtil.decrypt(encryptData, CommFun.getDefaultKey(App.getContext()), Const.BM);
-//                if (!TextUtils.isEmpty(decryptData)) {
-//                    try {
-//                        T data = gson.fromJson(decryptData, type);
-//                        result.setData(data);
-//                    } catch (Exception e) {
-//                        Logger.e(TAG, e.toString(), e);
-//                    }
-//                }
-//            }
+            Logger.e("encryptData:" + encryptData);
+            if (!TextUtils.isEmpty(encryptData)) {
+                String decryptData = EncryptUtil.decrypt(encryptData, HttpConfig.getPwd(), HttpConfig.getIv());
+                if (!TextUtils.isEmpty(decryptData)) {
+                    try {
+                        T data = gson.fromJson(decryptData, type);
+                        result.setData(data);
+                    } catch (Exception e) {
+                        Logger.e(TAG, e.toString(), e);
+                    }
+                }
+            }
         } catch (JSONException e) {
             Logger.e(e.toString());
         } finally {

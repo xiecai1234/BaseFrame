@@ -10,8 +10,14 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.fingerbeat.cloud.base.AppManager;
 import com.fingerbeat.cloud.net.rx.RxManager;
 import com.fingerbeat.utilcode.constant.Const;
+import com.fingerbeat.utilcode.utils.log.Logger;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import butterknife.ButterKnife;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -31,16 +37,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         doBeforeSetcontentView();
         mRxManager = new RxManager();
-        setContentView();
-//        ButterKnife.bind(this);
+        setContentView(getLayoutResource());
+        ButterKnife.bind(this);
         initView();
-//        mRxManager = new RxManager();
+        mRxManager = new RxManager();
         initData();
         //test
     }
 
 
-    protected abstract void setContentView();
+    protected abstract int getLayoutResource();
 
     protected void initView() {
     }
@@ -62,8 +68,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        dismissProgressDialog();
-//        AppManager.getAppManager().finishActivity(this);
+        dismissProgressDialog();
+        AppManager.getAppManager().finishActivity(this);
     }
 
     /**
@@ -71,7 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected void doBeforeSetcontentView() {
         // 把actvity放到application栈中管理
-//        AppManager.getAppManager().addActivity(this);
+        AppManager.getAppManager().addActivity(this);
         // 无标题
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置竖屏
@@ -158,8 +164,38 @@ public abstract class BaseActivity extends AppCompatActivity {
 //        ToastUtil.showCenterToast(this, msg, isLong);
 //    }
 //
-//    protected void log(String log) {
-//        Logger.e(TAG, log);
-//    }
 
+    protected void log(String log) {
+        Logger.e(TAG, log);
+    }
+
+    public void toast(String msg){
+        ToastUtils.showShort(msg);
+    }
+
+    private KProgressHUD hud;
+
+    public void showProgressDialog(boolean cancellable) {
+        if (null == hud) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setDimAmount(0.5f);
+        }
+        hud.setLabel(null).setCancellable(cancellable).show();
+    }
+
+    public void showProgressDialog(boolean cancellable, String lable) {
+        if (null == hud) {
+            hud = KProgressHUD.create(this)
+                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                    .setDimAmount(0.5f);
+        }
+        hud.setLabel(lable).setCancellable(cancellable).show();
+    }
+
+    public void dismissProgressDialog() {
+        if (null != hud && hud.isShowing()) {
+            hud.dismiss();
+        }
+    }
 }

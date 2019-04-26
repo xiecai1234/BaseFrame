@@ -13,9 +13,9 @@ import com.fingerbeat.utilcode.utils.log.IConfig;
 import com.fingerbeat.utilcode.utils.log.Logger;
 import com.squareup.leakcanary.LeakCanary;
 
-public class App extends Application {
+public class BaseApplication extends Application {
     private static final String TAG = Const.TAG;
-    private static App mApp;
+    private static BaseApplication mBaseApplication;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -34,7 +34,7 @@ public class App extends Application {
         }
         LeakCanary.install(this);
         // Normal app init code...
-        mApp = this;
+        mBaseApplication = this;
         //初始化 工具Utils
         Utils.init(this);
         AbnormalHandler.getInstance().init(this);
@@ -45,16 +45,16 @@ public class App extends Application {
                 .tag(TAG);//logcat 日志过滤tag
     }
 
-    public static Context getContext() {
-        return mApp.getApplicationContext();
-    }
-
     public static Context getAppContext() {
-        return mApp;
+        return mBaseApplication.getApplicationContext();
     }
 
-    public static synchronized App getInstance() {
-        return mApp;
+    public static Application getApp() {
+        return mBaseApplication;
+    }
+
+    public static synchronized BaseApplication getInstance() {
+        return mBaseApplication;
     }
 
     /**

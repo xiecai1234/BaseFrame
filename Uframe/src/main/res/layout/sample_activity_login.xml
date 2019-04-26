@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:paddingEnd="20dp"
+    android:paddingStart="20dp">
+    <!--顶部-->
+    <TextView
+        android:id="@+id/tv_login_lable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:text="手机号登录"
+        android:textColor="#333333"
+        android:textSize="23sp"
+        android:textStyle="bold" />
+    <!--输入框-->
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login_lable"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_login_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawablePadding="9dp"
+                android:inputType="phone"
+                android:maxLength="11"
+                android:textColorHint="#999999"
+                android:textSize="17sp" />
+
+            <View
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+                android:background="#e5e5e5" />
+
+            <RelativeLayout
+                android:id="@+id/ll_verify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp">
+
+                <TextView
+                    android:id="@+id/tv_get_auth_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="获取验证码"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/et_verify_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@id/tv_get_auth_code"
+                    android:background="@null"
+                    android:drawablePadding="9dp"
+                    android:hint="请输入验证码"
+                    android:inputType="phone"
+                    android:textColorHint="#999999"
+                    android:textSize="17sp" />
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@id/et_verify_code"
+                    android:layout_marginTop="9dp"
+                    android:background="#e5e5e5" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_login_regist_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <EditText
+                android:id="@+id/et_regist_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:inputType="text"
+                android:maxLength="11"
+                android:textColorHint="#999999"
+                android:textSize="17sp" />
+
+            <View
+                android:id="@+id/line3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+                android:background="#e5e5e5" />
+        </LinearLayout>
+    </LinearLayout>
+    <!--登录按钮-->
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/ll_content"
+        android:layout_marginTop="42dp"
+        android:gravity="center"
+        android:text="登录"
+        android:textColor="#333333"
+        android:textSize="16sp" />
+    <!--登录表示已阅读并同意《用户协议》-->
+    <LinearLayout
+        android:id="@+id/ll_agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_login"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录表示已阅读并同意"
+            android:textColor="#333333"
+            android:textSize="13sp" />
+        <TextView
+            android:id="@+id/tv_person_protocol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:text="《用户协议》"
+            android:textColor="#3FA2FF"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+</RelativeLayout>

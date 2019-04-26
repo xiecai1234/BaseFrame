@@ -43,7 +43,7 @@ final class CustomRequestBodyConverter<T> implements Converter<T, RequestBody> {
         //进行加密
 //        return RequestBody.create(MEDIA_TYPE, buffer.readByteString());
         String content = buffer.readUtf8();
-//        String data = EncryptUtil.encrypt(content, CommFun.getDefaultKey(App.getContext()), Const.BM);//TODO
-        return RequestBody.create(MEDIA_TYPE, content);
+        String data = EncryptUtil.encrypt(content, HttpConfig.getPwd(), HttpConfig.getIv());
+        return RequestBody.create(MEDIA_TYPE, data);
     }
 }

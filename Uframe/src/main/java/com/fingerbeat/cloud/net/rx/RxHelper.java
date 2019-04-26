@@ -64,7 +64,7 @@ public class RxHelper {
                             return createData(response.getData());
                         } else {
 //                            if (response.getCode() == INVALID_CODE) {
-//                                UserHelper.getInstance().deleteAll();
+//                                BaseUserHelper.getInstance().deleteAll();
 //                            }
                             return Flowable.error(new ApiException(response.getCode(), response.getMsg()));
                         }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.fingerbeat.cloud.App;
+import com.fingerbeat.cloud.BaseApplication;
 import com.fingerbeat.cloud.R;
 import com.fingerbeat.cloud.base.AppManager;
 import com.fingerbeat.cloud.net.HttpResultCode;
@@ -123,9 +123,9 @@ public abstract class RxSubscriber<T> extends ResourceSubscriber<T> {
         _onComplete();
         Logger.e(TAG, "onError:" + e.toString(), e);
         //网络
-        if (!NetWorkUtils.isNetConnected(App.getAppContext())) {
+        if (!NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {
             LogUtils.d(R.string.net_error);
-            _onError(App.getAppContext().getString(R.string.net_error));
+            _onError(BaseApplication.getAppContext().getString(R.string.net_error));
         } else if (e instanceof ApiException) {
             //请求成功错误信息
             Logger.e(TAG, "get ApiException:" + e.toString());
@@ -150,12 +150,12 @@ public abstract class RxSubscriber<T> extends ResourceSubscriber<T> {
     protected abstract void _onNext(T t);
 
     protected void _onError(String message) {
-        App.getInstance().showToast(message);
+        BaseApplication.getInstance().showToast(message);
     }
 
     protected void _onError(ApiException e) {
         Logger.e(TAG, "parent _onError");
-        App.getInstance().showToast(e.getMessage());
+        BaseApplication.getInstance().showToast(e.getMessage());
     }
 
     protected void _onComplete() {

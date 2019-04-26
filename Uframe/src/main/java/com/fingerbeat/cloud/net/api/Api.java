@@ -1,12 +1,11 @@
 package com.fingerbeat.cloud.net.api;
 
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import com.fingerbeat.cloud.App;
+import com.fingerbeat.cloud.BaseApplication;
 import com.fingerbeat.cloud.net.CustomConverterFactory;
 import com.fingerbeat.cloud.net.HttpConfig;
 import com.fingerbeat.cloud.net.HttpService;
@@ -93,7 +92,7 @@ public class Api {
 //                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addConverterFactory(CustomConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(HttpConfig.BASE_URL)
+                .baseUrl(HttpConfig.getUrl())
                 .build();
         httpService = retrofit.create(HttpService.class);
     }
@@ -110,7 +109,7 @@ public class Api {
         logInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         //缓存
-        File cacheFile = new File(App.getAppContext().getCacheDir(), CACHE);
+        File cacheFile = new File(BaseApplication.getAppContext().getCacheDir(), CACHE);
         final Cache cache = new Cache(cacheFile, 1024 * 1024 * 100);
 
         //增加头部信息
@@ -125,13 +124,13 @@ public class Api {
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 String cacheControl = request.cacheControl().toString();
-                if (!NetWorkUtils.isNetConnected(App.getAppContext())) {
+                if (!NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {
                     request = request.newBuilder()
                             .cacheControl(TextUtils.isEmpty(cacheControl) ? CacheControl.FORCE_NETWORK : CacheControl.FORCE_CACHE)
                             .build();
                 }
                 Response originalResponse = chain.proceed(request);
-                if (NetWorkUtils.isNetConnected(App.getAppContext())) {
+                if (NetWorkUtils.isNetConnected(BaseApplication.getAppContext())) {
                     return originalResponse.newBuilder()
                             .header("Cache-Control", cacheControl)
                             .removeHeader("Pragma")
@@ -155,7 +154,7 @@ public class Api {
         builder.addInterceptor(new RequestInterceptor());
         builder.addInterceptor(logInterceptor);
         builder.addInterceptor(Pandora.get().getInterceptor());
-//        if (BuildConfig.DEBUG && Utils.isEmulator(App.getAppContext())) {
+//        if (BuildConfig.DEBUG && Utils.isEmulator(BaseApplication.getAppContext())) {
 //            builder.dns(new WkDns());
 //        }
         builder.cache(cache);
@@ -182,6 +181,6 @@ public class Api {
      */
     @NonNull
     public static String getCacheControl() {
-        return NetWorkUtils.isNetConnected(App.getAppContext()) ? CACHE_CONTROL_AGE : CACHE_CONTROL_CACHE;
+        return NetWorkUtils.isNetConnected(BaseApplication.getAppContext()) ? CACHE_CONTROL_AGE : CACHE_CONTROL_CACHE;
     }
 }
