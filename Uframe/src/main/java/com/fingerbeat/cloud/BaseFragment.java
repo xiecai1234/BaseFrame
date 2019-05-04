@@ -31,11 +31,16 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutResource(), container, false);
-        unbinder = ButterKnife.bind(this, view);
+        View rootView;
+        if (getLayoutResource() != 0) {
+            rootView = inflater.inflate(getLayoutResource(), null);
+        } else {
+            rootView = super.onCreateView(inflater, container, savedInstanceState);
+        }
+        unbinder = ButterKnife.bind(this, rootView);
         initView();
         initData();
-        return view;
+        return rootView;
     }
 
     @Override
